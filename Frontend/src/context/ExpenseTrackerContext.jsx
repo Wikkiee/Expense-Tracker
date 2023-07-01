@@ -1,27 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 export const ExpenseTrackerContext = React.createContext();
 export const ExpenseUpdateContext = React.createContext();
 
 // eslint-disable-next-line react/prop-types
 export const ExpenseProvider = ({ children }) => {
-  const [currentBalance, setCurrentBalanace] = useState(0);
-  const [currentExpense, setCurrentExpense] = useState(0);
-  const [currentIncome, setCurrentIncome] = useState(0);
-  const [currentExpenseHistory, setCurrentExpenseHistory] = useState([]);
+  const initialData = JSON.parse(localStorage.getItem("_trackerData_"))
+  console.log(initialData);
+  const [currentBalance, setCurrentBalanace] = useState((initialData != null)? initialData.currentBalance : 0);
+  const [currentExpense, setCurrentExpense] = useState((initialData != null)? initialData.currentExpense : 0);
+  const [currentIncome, setCurrentIncome] = useState((initialData != null)? initialData.currentIncome : 0);
+  const [currentExpenseHistory, setCurrentExpenseHistory] = useState((initialData != null)? initialData.currentExpenseHistory : []);
+  useEffect(()=>{
+    localStorage.setItem(
+      "_trackerData_",
+      JSON.stringify({
+        currentExpenseHistory: currentExpenseHistory,
+        currentBalance: currentBalance,
+        currentExpense: currentExpense,
+        currentIncome: currentIncome,
+      })
+    );
+  },[currentExpenseHistory])
 
   const ExpenseUpdate = (value) => {
     const { Text, Amount } = value;
     if (Amount.toString()[0] == "+") {
-      setCurrentIncome(currentIncome + parseInt(Amount));
-      setCurrentBalanace(currentBalance + parseInt(Amount));
+      setCurrentIncome(() => {
+        return currentIncome + parseInt(Amount);
+      });
+      setCurrentBalanace(() => {
+        return currentBalance + parseInt(Amount);
+      });
       setCurrentExpenseHistory((prev) => {
         return [
           ...prev,
           { Id: nanoid(), Text: Text, Amount: parseInt(Amount) },
         ];
       });
-      console.log("Income");
     } else {
       setCurrentExpense(() => {
         return currentExpense + parseInt(Amount);

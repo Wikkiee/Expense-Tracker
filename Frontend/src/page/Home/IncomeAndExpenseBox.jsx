@@ -1,10 +1,14 @@
 import { useBalance } from "../../hooks/useBalanceHook";
 export const IncomeAndExpenseBox = () => {
-  const {currentIncome,currentExpense} = useBalance();
+  const {currentIncome,currentBalance,currentExpense} = useBalance();
   return (
     <div>
       <div>
-        <h3> Income </h3>
+        <h3>Balance </h3>
+        <h4>{currentBalance} $</h4>
+      </div>
+      <div>
+        <h2> Income </h2>
         <h3> {currentIncome}$</h3>
       </div>
       <div>
