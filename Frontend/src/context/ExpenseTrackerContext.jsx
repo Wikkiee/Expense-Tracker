@@ -5,13 +5,21 @@ export const ExpenseUpdateContext = React.createContext();
 
 // eslint-disable-next-line react/prop-types
 export const ExpenseProvider = ({ children }) => {
-  const initialData = JSON.parse(localStorage.getItem("_trackerData_"))
+  const initialData = JSON.parse(localStorage.getItem("_trackerData_"));
   console.log(initialData);
-  const [currentBalance, setCurrentBalanace] = useState((initialData != null)? initialData.currentBalance : 0);
-  const [currentExpense, setCurrentExpense] = useState((initialData != null)? initialData.currentExpense : 0);
-  const [currentIncome, setCurrentIncome] = useState((initialData != null)? initialData.currentIncome : 0);
-  const [currentExpenseHistory, setCurrentExpenseHistory] = useState((initialData != null)? initialData.currentExpenseHistory : []);
-  useEffect(()=>{
+  const [currentBalance, setCurrentBalanace] = useState(
+    initialData != null ? initialData.currentBalance : 0
+  );
+  const [currentExpense, setCurrentExpense] = useState(
+    initialData != null ? initialData.currentExpense : 0
+  );
+  const [currentIncome, setCurrentIncome] = useState(
+    initialData != null ? initialData.currentIncome : 0
+  );
+  const [currentExpenseHistory, setCurrentExpenseHistory] = useState(
+    initialData != null ? initialData.currentExpenseHistory : []
+  );
+  useEffect(() => {
     localStorage.setItem(
       "_trackerData_",
       JSON.stringify({
@@ -21,11 +29,11 @@ export const ExpenseProvider = ({ children }) => {
         currentIncome: currentIncome,
       })
     );
-  },[currentExpenseHistory])
+  }, [currentExpenseHistory]);
 
   const ExpenseUpdate = (value) => {
-    const { Text, Amount } = value;
-    if (Amount.toString()[0] == "+") {
+    const { Mode,Amount,Text,Tag } = value;
+    if (Mode === "Income") {
       setCurrentIncome(() => {
         return currentIncome + parseInt(Amount);
       });
@@ -34,8 +42,24 @@ export const ExpenseProvider = ({ children }) => {
       });
       setCurrentExpenseHistory((prev) => {
         return [
+          {
+            Id: nanoid(),
+            Icon: "up",
+            Text: Text,
+            Amount: parseInt(Amount),
+            Tag:Tag,
+            Time: new Date().toLocaleString("en-IN", {
+              hour12: false,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            Date: new Date().toLocaleDateString("en-IN", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+            }),
+          },
           ...prev,
-          { Id: nanoid(), Text: Text, Amount: parseInt(Amount) },
         ];
       });
     } else {
@@ -46,7 +70,26 @@ export const ExpenseProvider = ({ children }) => {
         return currentBalance - parseInt(Amount);
       });
       setCurrentExpenseHistory((prev) => {
-        return [...prev, { Id: nanoid(), Text: Text, Amount: Amount }];
+        return [
+          {
+            Id: nanoid(),
+            Icon: "down",
+            Text: Text,
+            Amount: Amount,
+            Tag:Tag,
+            Time: new Date().toLocaleString("en-IN", {
+              hour12: false,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            Date: new Date().toLocaleDateString("en-IN", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+            }),
+          },
+          ...prev,
+        ];
       });
     }
   };
@@ -54,8 +97,13 @@ export const ExpenseProvider = ({ children }) => {
     const items = currentExpenseHistory.filter((item) => {
       console.log(id);
       if (item.Id === id) {
-        setCurrentBalanace(currentBalance + parseInt(item.Amount));
-        setCurrentExpense(currentExpense - parseInt(item.Amount));
+        if(item.Icon === "up"){
+          setCurrentBalanace(currentBalance - parseInt(item.Amount));
+          setCurrentIncome(currentIncome - parseInt(item.Amount));
+        }else if(item.Icon === "down"){
+          setCurrentBalanace(currentBalance + parseInt(item.Amount));
+          setCurrentExpense(currentExpense - parseInt(item.Amount));
+        }
       }
       return item.Id != id;
     });

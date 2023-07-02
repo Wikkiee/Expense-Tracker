@@ -1,31 +1,48 @@
+import { HistoryItems } from "../../components/ExpenseBlocks";
 import { useBalance } from "../../hooks/useBalanceHook";
 import { useSetBalance } from "../../hooks/useBalanceHook";
+
 export const HistoryList = () => {
   const { currentExpenseHistory } = useBalance();
-  const {deleteExpenseHistory} = useSetBalance()
+  const { deleteExpenseHistory } = useSetBalance();
   // eslint-disable-next-line no-unused-vars
-  const handleClick = (item)=>{
+  const handleClick = (Id) => {
     console.log("Handle : ");
-    console.log(item.Id);
-    deleteExpenseHistory(item.Id)
-  }
+    console.log(Id);
+    deleteExpenseHistory(Id);
+  };
   return (
     <div>
-      <h3>History</h3>
-      <div>
       <ul>
-      {
-        currentExpenseHistory.map((item,i)=>{
-          return (<li key={i}>
-          <h4>{item.Text}       {item.Amount}</h4>
-        </li>)
-        })
-      }
+        {currentExpenseHistory.length > 0 ? (
+          currentExpenseHistory.map((item, i) => {
+            return (
+              <HistoryItems
+                key={i}
+                Icon={item.Icon}
+                Amount={item.Amount}
+                Text={item.Text}
+                Tag={item.Tag}
+                Time={item.Time}
+                Date={item.Date}
+                handleClick={handleClick}
+                Id = {item.Id}
+              />
+            );
+          })
+        ) : (
+          <div className='flex justify-center'>
+            <div className='w-[95%] bg-light-black h-[250px] rounded flex justify-center items-center'>
+              <h2 className='text-light-black'>No transactions</h2>
+            </div>
+          </div>
+        )}
       </ul>
-      </div>
     </div>
   );
 };
-{/* <h4 onClick={()=>{
+{
+  /* <h4 onClick={()=>{
             handleClick(item)
-          }}>{item.Amount}</h4> */}
+          }}>{item.Amount}</h4> */
+}
