@@ -2,10 +2,12 @@ import { BalanaceIncomeAndExpenseBox } from "./BalanceIncomeAndExpenseBox.jsx";
 import { HistoryList } from "./HistoryList.jsx";
 import { NewTransaction } from "./NewTransaction.jsx";
 import { Navbar } from "../../components/Navbar.jsx";
+import { Contact } from "./Contact.jsx";
+import { Upcoming } from "./Upcoming.jsx";
 export const Home = () => {
   return (
     <>
-      <Navbar />
+      <Navbar name="Login" link = "/login"/>
       <dib className='w-full h-screen m-0 p-0 bg-[#121212]'>
         <div className='flex justify-between px-[110px]'>
           <div>
@@ -24,6 +26,11 @@ export const Home = () => {
           </div>
           <div>
             <NewTransaction />
+            <div className="flex ">
+            <Contact />
+            <Upcoming />
+            </div>
+            
           </div>
         </div>
       </dib>

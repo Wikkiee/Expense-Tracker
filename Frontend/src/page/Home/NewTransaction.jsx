@@ -1,22 +1,31 @@
-import { useRef, useState } from "react";
-import { useSetBalance } from "../../hooks/useBalanceHook";
+import { useEffect, useRef, useState } from "react";
+import { useBalance,useSetBalance } from "../../hooks/useBalanceHook";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { ToggleButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
+import SubmitButton from "../../components/SubmitButton";
+
 
 export const NewTransaction = () => {
   const [isIncomeSelected, setIncomeSelected] = useState(false);
+  const [isInvalidValue, setInvalidValue] = useState(false);
   const { ExpenseUpdate } = useSetBalance();
+  const {currentIncome,currentBalance} = useBalance();
   const currentAmount = useRef();
   const currentText = useRef();
   const currentTag = useRef();
   const selectIconBgColor = isIncomeSelected ? "primary" : "white";
+  useEffect(()=>{
+      if(currentIncome === 0){
+        setIncomeSelected(true)
+      }
+  },[])
   const onClickHandler = () => {
     ExpenseUpdate({
       Mode: isIncomeSelected ? "Income" : "Expense",
-      Amount: currentAmount.current.value,
+      Amount: Math.abs(currentAmount.current.value),
       Text: currentText.current.value,
       Tag: currentTag.current.value,
     });
@@ -31,15 +40,22 @@ export const NewTransaction = () => {
               <TextField
                 type={"number"}
                 onChange={(e) => {
-                  console.log(e.target.value);
+                  if(e.target.value > currentBalance){
+                    console.log("T")
+                    setInvalidValue(true)
+                  }else{
+                    setInvalidValue(false)
+                  }
                 }}
+                error = {isInvalidValue & !isIncomeSelected}
+              
                 fullWidth
                 required='true'
                 autoComplete='off'
                 className='bg-light-black n'
                 inputRef={currentAmount}
                 id='filled-basic'
-                label='Amount (Use + sign to add income)'
+                label={(isInvalidValue & !isIncomeSelected)? 'Please check the balance': 'Amount'}
                 variant='filled'
                 sx={{ margin: "0px 0px 25px  0px" }}
                 InputLabelProps={{
@@ -63,7 +79,7 @@ export const NewTransaction = () => {
               arrow
             >
               <ToggleButton
-                value='check'
+              value={"toggle"}
                 color='info'
                 sx={{
                   backgroundColor: "#242424",
@@ -118,14 +134,10 @@ export const NewTransaction = () => {
           />
         </div>
         <div className='flex justify-center'>
-          <button className='bg-light-black py-2 px-12' type='submit'>
-            Submit
-          </button>
+            <SubmitButton Text={"Submit"} isInvalidValue={isInvalidValue} isIncomeSelected={isIncomeSelected}/>
         </div>
       </form>
     </div>
   );
 };
 
-{
-}

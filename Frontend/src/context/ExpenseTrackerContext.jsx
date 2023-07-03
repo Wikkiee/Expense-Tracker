@@ -6,7 +6,6 @@ export const ExpenseUpdateContext = React.createContext();
 // eslint-disable-next-line react/prop-types
 export const ExpenseProvider = ({ children }) => {
   const initialData = JSON.parse(localStorage.getItem("_trackerData_"));
-  console.log(initialData);
   const [currentBalance, setCurrentBalanace] = useState(
     initialData != null ? initialData.currentBalance : 0
   );
