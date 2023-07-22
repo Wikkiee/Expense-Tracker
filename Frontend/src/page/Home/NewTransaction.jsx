@@ -21,7 +21,7 @@ export const NewTransaction = () => {
       if(currentIncome === 0){
         setIncomeSelected(true)
       }
-  },[])
+  },[currentIncome])
   const onClickHandler = () => {
     ExpenseUpdate({
       Mode: isIncomeSelected ? "Income" : "Expense",

@@ -1,17 +1,15 @@
 import { Navbar } from "../../components/Navbar";
-import useAuth from "../../hooks/useAuthHook.jsx";
 import RegisterLeftImage from "../../assets/RegisterLeftImage.png";
 import TextField from "@mui/material/TextField";
 import SubmitButton from "../../components/SubmitButton";
 const Register = () => {
-  const { isAuthenticated, setAuthenticated } = useAuth();
   const onSubmitHandler = (e) => {
     console.log(e)
   };
   return (
     <>
       <Navbar name='Login' link='/login' />
-      <div className='flex justify-center items-center w-full h-full mt-36 justify-evenly '>
+      <div className='flex  items-center w-full h-full mt-36 justify-evenly '>
         <div className='flex text-center hover:drop-shadow-[0 3px 10px rgb(10 10 10 / 0.2)]  w-auto '>
           <img src={RegisterLeftImage} className='w-[300px] h-[300px]' />
         </div>

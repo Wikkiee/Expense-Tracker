@@ -5,7 +5,7 @@ import { useSetBalance } from "../../hooks/useBalanceHook";
 export const HistoryList = () => {
   const { currentExpenseHistory } = useBalance();
   const { deleteExpenseHistory } = useSetBalance();
-  // eslint-disable-next-line no-unused-vars
+
   const handleClick = (Id) => {
     console.log("Handle : ");
     console.log(Id);
@@ -26,7 +26,7 @@ export const HistoryList = () => {
                 Time={item.Time}
                 Date={item.Date}
                 handleClick={handleClick}
-                Id = {item.Id}
+                Id={item.Id}
               />
             );
           })

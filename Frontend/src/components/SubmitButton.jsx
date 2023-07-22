@@ -1,13 +1,18 @@
-const SubmitButton = ({Text,isInvalidValue,isIncomeSelected}) => {
+const SubmitButton = ({ Text, isInvalidValue, isIncomeSelected }) => {
   return (
     <button
-      disabled={isInvalidValue & !isIncomeSelected }
+      disabled={isInvalidValue & !isIncomeSelected}
       className='bg-light-black py-2 px-12 rounded transition-colors hover:bg-white hover:text-black ease-in duration-300'
       type='submit'
     >
       {Text}
     </button>
   );
+};
+SubmitButton.propTypes = {
+  Text: String,
+  isInvalidValue: Boolean,
+  isIncomeSelected: Boolean,
 };
 
 export default SubmitButton;

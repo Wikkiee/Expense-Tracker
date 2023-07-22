@@ -1,7 +1,7 @@
 import UpIcon from "../assets/UpIcon.svg";
 import DownIcon from "../assets/DownIcon.svg";
 import { useState } from "react";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 // eslint-disable-next-line react/prop-types
 export const AmountDisplay = ({ Name, Amount }) => {
@@ -30,7 +30,7 @@ export const HistoryItems = ({
     <li
       className='flex justify-center mb-[10px]'
       onClick={() => {
-        setClicked(!isClicked) ;
+        setClicked(!isClicked);
       }}
     >
       <div className='text-light-black   flex w-[95%]  bg-light-black h-auto items-center'>
@@ -51,9 +51,24 @@ export const HistoryItems = ({
           </h5>
         </div>
         <div
-          className={`${(Icon === "up") ? "bg-[#67FD64]" : "bg-[#FD6464]" 
-          } h-full ${(isClicked)? "w-[50px]":"w-[10px]"}  ml-4 transition-[width] ease-in flex justify-center items-center`}
-        >{isClicked? <DeleteIcon sx={{display:(isClicked)? "initial":"revert"}} onClick={()=>{handleClick(Id)}} color={(Icon === "up")?"success":"error"} />:''}</div>
+          className={`${
+            Icon === "up" ? "bg-[#67FD64]" : "bg-[#FD6464]"
+          } h-full ${
+            isClicked ? "w-[50px]" : "w-[10px]"
+          }  ml-4 transition-[width] ease-in flex justify-center items-center`}
+        >
+          {isClicked ? (
+            <DeleteIcon
+              sx={{ display: isClicked ? "initial" : "revert" }}
+              onClick={() => {
+                handleClick(Id);
+              }}
+              color={Icon === "up" ? "success" : "error"}
+            />
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </li>
   );

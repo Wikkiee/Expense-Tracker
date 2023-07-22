@@ -1,7 +1,3 @@
-import react from "../../assets/react.svg";
-import tailwind from "../../assets/tailwind-css.svg";
-import java from "../../assets/java.svg";
-import { Tooltip } from "@mui/material";
 
 export const Upcoming = () => {
   return (
