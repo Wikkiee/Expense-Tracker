@@ -41,7 +41,7 @@ export const NewTransaction = () => {
                 type={"number"}
                 onChange={(e) => {
                   if(e.target.value > currentBalance){
-                    console.log("T")
+   
                     setInvalidValue(true)
                   }else{
                     setInvalidValue(false)

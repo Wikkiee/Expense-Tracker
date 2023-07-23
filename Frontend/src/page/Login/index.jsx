@@ -2,9 +2,41 @@ import { Navbar } from "../../components/Navbar";
 import LoginLeftImage from "../../assets/LoginLeftImage.png";
 import TextField from "@mui/material/TextField";
 import SubmitButton from "../../components/SubmitButton";
+import { useEffect, useRef } from "react";
+import axios from "axios";
+import useAuth from "../../hooks/useAuthHook.jsx"
+import { useNavigate } from "react-router-dom";
+
+
 const Login = () => {
+  const userEmail = useRef()
+  const userPassword = useRef()
+  const {isAuthenticated ,setAuthenticated} = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    console.log(isAuthenticated);
+    if(isAuthenticated){
+      navigate("/")
+    }
+  })
   const onSubmitHandler = (e)=>{
     e.preventDefault()
+    axios({
+      method: "post",
+      url: "http://localhost:5000/login",
+      withCredentials:true,
+      data: {
+        userEmail: userEmail.current.value,
+        userPassword: userPassword.current.value,
+      }
+    })
+    .then((response)=>{
+      if(response.data.isAuthenticated){
+        setAuthenticated(()=>true)
+        navigate("/")
+      }
+    })
   }
   return (
     <>
@@ -19,6 +51,7 @@ const Login = () => {
             <form onSubmit={onSubmitHandler}>
               <TextField
                 fullWidth
+                inputRef={ userEmail}
                 required='true'
                 sx={{ margin: "0px 0px 25px  0px" }}
                 autoComplete='new-password'
@@ -35,6 +68,7 @@ const Login = () => {
               />
               <TextField
                 fullWidth
+                inputRef={userPassword}
                 required='true'
                 sx={{ margin: "0px 0px 25px  0px" }}
                 autoComplete='new-password'

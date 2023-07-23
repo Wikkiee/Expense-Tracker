@@ -2,9 +2,48 @@ import { Navbar } from "../../components/Navbar";
 import RegisterLeftImage from "../../assets/RegisterLeftImage.png";
 import TextField from "@mui/material/TextField";
 import SubmitButton from "../../components/SubmitButton";
+import { useRef, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuthHook";
+import { useEffect } from "react";
 const Register = () => {
+  const userEmail = useRef();
+  const userPassword = useRef();
+  const userConfirmPassword = useRef();
+  const navigate = useNavigate()
+  const [isValidPassword, setValidPassword] = useState(true);
+    const {isAuthenticated ,setAuthenticated} = useAuth()
+    useEffect(()=>{
+      console.log(isAuthenticated);
+      if(isAuthenticated){
+        navigate("/")
+      }
+    })
   const onSubmitHandler = (e) => {
-    console.log(e)
+    e.preventDefault();
+    console.log(userEmail.current.value);
+    if (userPassword.current.value === userConfirmPassword.current.value) {
+      setValidPassword(true);
+      axios({
+        method: "post",
+        url: "http://localhost:5000/register",
+        data: {
+          userEmail: userEmail.current.value,
+          userPassword: userPassword.current.value,
+        },
+        withCredentials:true
+      })
+        .then((res) => {
+          if(res.data.isAuthenticated){
+            setAuthenticated(()=>true)
+            navigate("/")
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      setValidPassword(false);
+    }
   };
   return (
     <>
@@ -15,19 +54,18 @@ const Register = () => {
         </div>
         <div>
           <div className='bg-black w-[500px] h-auto py-6 px-9 text-center'>
-            <h1 className='text-4xl mb-6'>Xpense Tracker</h1>
+            <h1 className='text-4xl mb-6'>Expense Tracker X</h1>
             <form onSubmit={onSubmitHandler}>
               <TextField
                 fullWidth
+                inputRef={userEmail}
                 type={"email"}
                 required='true'
                 sx={{ margin: "0px 0px 25px  0px" }}
                 autoComplete='new-password'
                 className='bg-light-black'
-                id='filled-basic'
                 label='Email'
                 variant='filled'
-              
                 InputLabelProps={{
                   style: { color: "#B3B3B3" },
                 }}
@@ -36,13 +74,13 @@ const Register = () => {
                 }}
               />
               <TextField
+                inputRef={userPassword}
                 fullWidth
                 type={"password"}
                 required='true'
                 sx={{ margin: "0px 0px 25px  0px" }}
                 autoComplete='new-password'
                 className='bg-light-black'
-                id='filled-basic'
                 label='Password'
                 variant='filled'
                 InputLabelProps={{
@@ -53,22 +91,25 @@ const Register = () => {
                 }}
               />
               <TextField
+                inputRef={userConfirmPassword}
                 fullWidth
                 type={"password"}
                 required='true'
                 sx={{ margin: "0px 0px 25px  0px" }}
                 autoComplete='new-password'
                 className='bg-light-black'
-                id='filled-basic'
-                label='Confirm Password'
+                label={
+                  isValidPassword
+                    ? "Confirm Password"
+                    : "Please enter the correct matching password"
+                }
                 variant='filled'
                 InputLabelProps={{
-                  style: { color: "#B3B3B3" },
+                  style: { color: isValidPassword ? "#B3B3B3" : "red" },
                 }}
                 InputProps={{
-                  style: { color: "#B3B3B3",'img':{color:"white"} },
+                  style: { color: "#B3B3B3", img: { color: "white" } },
                 }}
-              
               />
               <SubmitButton Text={"Register"} />
             </form>
