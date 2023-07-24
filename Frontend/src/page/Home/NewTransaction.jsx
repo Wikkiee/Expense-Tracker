@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useBalance,useSetBalance } from "../../hooks/useBalanceHook";
+import { useBalance, useSetBalance } from "../../hooks/useBalanceHook";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
@@ -7,21 +7,20 @@ import { ToggleButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import SubmitButton from "../../components/SubmitButton";
 
-
 export const NewTransaction = () => {
   const [isIncomeSelected, setIncomeSelected] = useState(false);
   const [isInvalidValue, setInvalidValue] = useState(false);
   const { ExpenseUpdate } = useSetBalance();
-  const {currentIncome,currentBalance} = useBalance();
+  const { currentIncome, currentBalance } = useBalance();
   const currentAmount = useRef();
   const currentText = useRef();
   const currentTag = useRef();
   const selectIconBgColor = isIncomeSelected ? "primary" : "white";
-  useEffect(()=>{
-      if(currentIncome === 0){
-        setIncomeSelected(true)
-      }
-  },[currentIncome])
+  useEffect(() => {
+    if (currentIncome === 0) {
+      setIncomeSelected(true);
+    }
+  }, [currentIncome]);
   const onClickHandler = () => {
     ExpenseUpdate({
       Mode: isIncomeSelected ? "Income" : "Expense",
@@ -40,22 +39,24 @@ export const NewTransaction = () => {
               <TextField
                 type={"number"}
                 onChange={(e) => {
-                  if(e.target.value > currentBalance){
-   
-                    setInvalidValue(true)
-                  }else{
-                    setInvalidValue(false)
+                  if (e.target.value > currentBalance) {
+                    setInvalidValue(true);
+                  } else {
+                    setInvalidValue(false);
                   }
                 }}
-                error = {isInvalidValue & !isIncomeSelected}
-              
+                error={isInvalidValue & !isIncomeSelected}
                 fullWidth
                 required='true'
                 autoComplete='off'
                 className='bg-light-black n'
                 inputRef={currentAmount}
                 id='filled-basic'
-                label={(isInvalidValue & !isIncomeSelected)? 'Please check the balance': 'Amount'}
+                label={
+                  isInvalidValue & !isIncomeSelected
+                    ? "Please check the balance"
+                    : "Amount"
+                }
                 variant='filled'
                 sx={{ margin: "0px 0px 25px  0px" }}
                 InputLabelProps={{
@@ -79,7 +80,7 @@ export const NewTransaction = () => {
               arrow
             >
               <ToggleButton
-              value={"toggle"}
+                value={"toggle"}
                 color='info'
                 sx={{
                   backgroundColor: "#242424",
@@ -134,10 +135,13 @@ export const NewTransaction = () => {
           />
         </div>
         <div className='flex justify-center'>
-            <SubmitButton Text={"Submit"} isInvalidValue={isInvalidValue} isIncomeSelected={isIncomeSelected}/>
+          <SubmitButton
+            Text={"Submit"}
+            isInvalidValue={isInvalidValue}
+            isIncomeSelected={isIncomeSelected}
+          />
         </div>
       </form>
     </div>
   );
 };
-

@@ -4,40 +4,54 @@ import TextField from "@mui/material/TextField";
 import SubmitButton from "../../components/SubmitButton";
 import { useEffect, useRef } from "react";
 import axios from "axios";
-import useAuth from "../../hooks/useAuthHook.jsx"
+import useAuth from "../../hooks/useAuthHook.jsx";
 import { useNavigate } from "react-router-dom";
-
+import { useBalance } from "../../hooks/useBalanceHook";
 
 const Login = () => {
-  const userEmail = useRef()
-  const userPassword = useRef()
-  const {isAuthenticated ,setAuthenticated} = useAuth()
-  const navigate = useNavigate()
+  const userEmail = useRef();
+  const userPassword = useRef();
+  const { isAuthenticated, setAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const {
+    setCurrentIncome,
+    setCurrentBalanace,
+    setCurrentExpense,
+    setCurrentExpenseHistory,
+  } = useBalance();
 
-  useEffect(()=>{
-    console.log(isAuthenticated);
-    if(isAuthenticated){
-      navigate("/")
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
     }
-  })
-  const onSubmitHandler = (e)=>{
-    e.preventDefault()
+  });
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
     axios({
       method: "post",
       url: "http://localhost:5000/login",
-      withCredentials:true,
+      withCredentials: true,
       data: {
         userEmail: userEmail.current.value,
         userPassword: userPassword.current.value,
+      },
+    }).then((response) => {
+      if (response.data.isAuthenticated) {
+        setAuthenticated(() => true);
+        localStorage.setItem(
+          "_trackerData_",
+          JSON.stringify(response.data.data.userAppData)
+        );
+        setCurrentBalanace(() => response.data.data.userAppData.currentBalance);
+        setCurrentIncome(() => response.data.data.userAppData.currentIncome);
+        setCurrentExpense(() => response.data.data.userAppData.currentExpense);
+        setCurrentExpenseHistory(
+          () => response.data.data.userAppData.currentExpenseHistory
+        );
+        navigate("/");
       }
-    })
-    .then((response)=>{
-      if(response.data.isAuthenticated){
-        setAuthenticated(()=>true)
-        navigate("/")
-      }
-    })
-  }
+    });
+  };
   return (
     <>
       <Navbar name='Register' link='/register' />
@@ -51,7 +65,7 @@ const Login = () => {
             <form onSubmit={onSubmitHandler}>
               <TextField
                 fullWidth
-                inputRef={ userEmail}
+                inputRef={userEmail}
                 required='true'
                 sx={{ margin: "0px 0px 25px  0px" }}
                 autoComplete='new-password'

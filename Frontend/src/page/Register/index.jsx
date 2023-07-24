@@ -11,18 +11,17 @@ const Register = () => {
   const userEmail = useRef();
   const userPassword = useRef();
   const userConfirmPassword = useRef();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isValidPassword, setValidPassword] = useState(true);
-    const {isAuthenticated ,setAuthenticated} = useAuth()
-    useEffect(()=>{
-      console.log(isAuthenticated);
-      if(isAuthenticated){
-        navigate("/")
-      }
-    })
+  const { isAuthenticated, setAuthenticated } = useAuth();
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  });
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(userEmail.current.value);
+
     if (userPassword.current.value === userConfirmPassword.current.value) {
       setValidPassword(true);
       axios({
@@ -32,12 +31,12 @@ const Register = () => {
           userEmail: userEmail.current.value,
           userPassword: userPassword.current.value,
         },
-        withCredentials:true
+        withCredentials: true,
       })
         .then((res) => {
-          if(res.data.isAuthenticated){
-            setAuthenticated(()=>true)
-            navigate("/")
+          if (res.data.isAuthenticated) {
+            setAuthenticated(() => true);
+            navigate("/");
           }
         })
         .catch((err) => console.log(err));

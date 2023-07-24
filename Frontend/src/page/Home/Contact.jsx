@@ -14,17 +14,16 @@ export const Contact = () => {
           </div>
         </Tooltip>
         <Tooltip placement='bottom' arrow title={"Tailwind-css"}>
-        <div className='w-[55px] h-[55px] rounded-[50%] bg-light-black flex justify-center items-center'>
-          <img className='w-[45px] h-[45px]' src={tailwind} />
-        </div>
+          <div className='w-[55px] h-[55px] rounded-[50%] bg-light-black flex justify-center items-center'>
+            <img className='w-[45px] h-[45px]' src={tailwind} />
+          </div>
         </Tooltip>
         <Tooltip placement='bottom' arrow title={"Spring boot"}>
-        <div className='w-[55px] h-[55px] rounded-[50%] bg-light-black flex justify-center items-center'>
-          <img className='w-[45px] h-[45px]' src={java} />
-        </div>
+          <div className='w-[55px] h-[55px] rounded-[50%] bg-light-black flex justify-center items-center'>
+            <img className='w-[45px] h-[45px]' src={java} />
+          </div>
         </Tooltip>
       </div>
     </div>
   );
 };
-

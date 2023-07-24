@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
+
 export const ExpenseTrackerContext = React.createContext();
 export const ExpenseUpdateContext = React.createContext();
 
@@ -19,19 +20,17 @@ export const ExpenseProvider = ({ children }) => {
     initialData != null ? initialData.currentExpenseHistory : []
   );
   useEffect(() => {
-    localStorage.setItem(
-      "_trackerData_",
-      JSON.stringify({
-        currentExpenseHistory: currentExpenseHistory,
-        currentBalance: currentBalance,
-        currentExpense: currentExpense,
-        currentIncome: currentIncome,
-      })
-    );
+    const data = {
+      currentExpenseHistory: currentExpenseHistory,
+      currentBalance: currentBalance,
+      currentExpense: currentExpense,
+      currentIncome: currentIncome,
+    };
+    localStorage.setItem("_trackerData_", JSON.stringify(data));
   }, [currentExpenseHistory]);
 
   const ExpenseUpdate = (value) => {
-    const { Mode,Amount,Text,Tag } = value;
+    const { Mode, Amount, Text, Tag } = value;
     if (Mode === "Income") {
       setCurrentIncome(() => {
         return currentIncome + parseInt(Amount);
@@ -46,7 +45,7 @@ export const ExpenseProvider = ({ children }) => {
             Icon: "up",
             Text: Text,
             Amount: parseInt(Amount),
-            Tag:Tag,
+            Tag: Tag,
             Time: new Date().toLocaleString("en-IN", {
               hour12: false,
               hour: "2-digit",
@@ -75,7 +74,7 @@ export const ExpenseProvider = ({ children }) => {
             Icon: "down",
             Text: Text,
             Amount: Amount,
-            Tag:Tag,
+            Tag: Tag,
             Time: new Date().toLocaleString("en-IN", {
               hour12: false,
               hour: "2-digit",
@@ -94,20 +93,17 @@ export const ExpenseProvider = ({ children }) => {
   };
   const deleteExpenseHistory = (id) => {
     const items = currentExpenseHistory.filter((item) => {
-      console.log(id);
       if (item.Id === id) {
-        if(item.Icon === "up"){
+        if (item.Icon === "up") {
           setCurrentBalanace(currentBalance - parseInt(item.Amount));
           setCurrentIncome(currentIncome - parseInt(item.Amount));
-        }else if(item.Icon === "down"){
+        } else if (item.Icon === "down") {
           setCurrentBalanace(currentBalance + parseInt(item.Amount));
           setCurrentExpense(currentExpense - parseInt(item.Amount));
         }
       }
       return item.Id != id;
     });
-    console.log("Filtred");
-    console.log(items);
     setCurrentExpenseHistory(items);
   };
 
@@ -118,6 +114,10 @@ export const ExpenseProvider = ({ children }) => {
         currentBalance,
         currentExpense,
         currentExpenseHistory,
+        setCurrentIncome,
+        setCurrentBalanace,
+        setCurrentExpense,
+        setCurrentExpenseHistory,
       }}
     >
       <ExpenseUpdateContext.Provider

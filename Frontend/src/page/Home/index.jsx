@@ -4,10 +4,36 @@ import { NewTransaction } from "./NewTransaction.jsx";
 import { Navbar } from "../../components/Navbar.jsx";
 import { Contact } from "./Contact.jsx";
 import { Upcoming } from "./Upcoming.jsx";
+import { useEffect } from "react";
+import axios from "axios";
+import { useBalance } from "../../hooks/useBalanceHook.jsx";
+
 export const Home = () => {
+  const {
+    setCurrentIncome,
+    setCurrentBalanace,
+    setCurrentExpense,
+    setCurrentExpenseHistory,
+  } = useBalance();
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://localhost:5000/",
+      withCredentials: true,
+    }).then((response) => {
+      if (response.data.isAuthenticated) {
+        setCurrentBalanace(() => response.data.data.currentBalance);
+        setCurrentIncome(() => response.data.data.currentIncome);
+        setCurrentExpense(() => response.data.data.currentExpense);
+        setCurrentExpenseHistory(
+          () => response.data.data.currentExpenseHistory
+        );
+      }
+    });
+  }, []);
   return (
     <>
-      <Navbar name="Login" link = "/login"/>
+      <Navbar name='Login' link='/login' />
       <dib className='w-full h-screen m-0 p-0 bg-[#121212]'>
         <div className='flex justify-between px-[110px]'>
           <div>
@@ -26,11 +52,10 @@ export const Home = () => {
           </div>
           <div>
             <NewTransaction />
-            <div className="flex ">
-            <Contact />
-            <Upcoming />
+            <div className='flex '>
+              <Contact />
+              <Upcoming />
             </div>
-            
           </div>
         </div>
       </dib>

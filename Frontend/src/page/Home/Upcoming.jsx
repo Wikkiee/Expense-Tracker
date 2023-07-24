@@ -1,4 +1,3 @@
-
 export const Upcoming = () => {
   return (
     <div className='bg-black w-[50%] ml-6 mt-6 py-[12px] px-[12px] '>

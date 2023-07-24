@@ -3,12 +3,10 @@ import { useBalance } from "../../hooks/useBalanceHook";
 import { useSetBalance } from "../../hooks/useBalanceHook";
 
 export const HistoryList = () => {
-  const { currentExpenseHistory } = useBalance();
   const { deleteExpenseHistory } = useSetBalance();
+  const { currentExpenseHistory } = useBalance();
 
   const handleClick = (Id) => {
-    console.log("Handle : ");
-    console.log(Id);
     deleteExpenseHistory(Id);
   };
   return (
@@ -41,8 +39,3 @@ export const HistoryList = () => {
     </div>
   );
 };
-{
-  /* <h4 onClick={()=>{
-            handleClick(item)
-          }}>{item.Amount}</h4> */
-}
