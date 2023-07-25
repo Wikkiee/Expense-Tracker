@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
+import axios from "axios";
 
 export const ExpenseTrackerContext = React.createContext();
 export const ExpenseUpdateContext = React.createContext();
@@ -27,7 +28,15 @@ export const ExpenseProvider = ({ children }) => {
       currentIncome: currentIncome,
     };
     localStorage.setItem("_trackerData_", JSON.stringify(data));
-  }, [currentExpenseHistory]);
+    console.log("Triggered");
+    console.log(currentExpenseHistory);
+    axios({
+      method:"put",
+      url:"http://localhost:5000/update",
+      data:data,
+      withCredentials:true
+    })
+  }, [currentBalance, currentExpense, currentExpenseHistory, currentIncome]);
 
   const ExpenseUpdate = (value) => {
     const { Mode, Amount, Text, Tag } = value;
@@ -105,6 +114,7 @@ export const ExpenseProvider = ({ children }) => {
       return item.Id != id;
     });
     setCurrentExpenseHistory(items);
+    console.log(currentExpenseHistory);
   };
 
   return (

@@ -107,6 +107,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.put("/update", checkAuthenticated, async (req, res) => {
+  console.log(req.body);
   const result = await db.findOneAndUpdate(
     { "userInfo.userId": req.session.passport.user.userID },
     { $set: { userAppData: req.body } }

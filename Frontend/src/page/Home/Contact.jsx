@@ -1,6 +1,6 @@
 import react from "../../assets/react.svg";
 import tailwind from "../../assets/tailwind-css.svg";
-import java from "../../assets/java.svg";
+import express from "../../assets/express.svg";
 import { Tooltip } from "@mui/material";
 
 export const Contact = () => {
@@ -18,9 +18,9 @@ export const Contact = () => {
             <img className='w-[45px] h-[45px]' src={tailwind} />
           </div>
         </Tooltip>
-        <Tooltip placement='bottom' arrow title={"Spring boot"}>
-          <div className='w-[55px] h-[55px] rounded-[50%] bg-light-black flex justify-center items-center'>
-            <img className='w-[45px] h-[45px]' src={java} />
+        <Tooltip placement='bottom' arrow title={"Express Js"}>
+          <div className='w-[55px] h-[55px] pt-1 rounded-[50%] bg-light-black flex justify-center items-center'>
+            <img className='w-[40px] h-[45px]' src={express} />
           </div>
         </Tooltip>
       </div>
