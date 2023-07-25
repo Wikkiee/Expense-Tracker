@@ -53,9 +53,10 @@ app.post("/login", (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      return res.status(401).json({
+      console.log("Error");
+      return res.json({
         message: "Authentication failed",
-        error: true,
+        userNotFound: true,
         isAuthenticated: false,
       });
     }
@@ -63,9 +64,9 @@ app.post("/login", (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.status(202).json({
+      return res.json({
         message: "Authentication succeed",
-        error: false,
+        userNotFound: false,
         isAuthenticated: req.isAuthenticated(),
         data: user,
       });
@@ -114,6 +115,15 @@ app.put("/update", checkAuthenticated, async (req, res) => {
   );
   res.json({ success: true });
 });
+
+
+app.post("/logout",(req,res)=>{
+  console.log("logout");
+  req.session.destroy(function() {
+    res.clearCookie('connect.sid');
+    res.json({loggedOut:true});
+});
+})
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {

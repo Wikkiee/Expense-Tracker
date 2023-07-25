@@ -2,7 +2,7 @@ import { Navbar } from "../../components/Navbar";
 import LoginLeftImage from "../../assets/LoginLeftImage.png";
 import TextField from "@mui/material/TextField";
 import SubmitButton from "../../components/SubmitButton";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuthHook.jsx";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ const Login = () => {
   const userEmail = useRef();
   const userPassword = useRef();
   const { isAuthenticated, setAuthenticated } = useAuth();
+  const [isUserNotFound,setUserNotFound]  = useState(false)
   const navigate = useNavigate();
   const {
     setCurrentIncome,
@@ -36,6 +37,10 @@ const Login = () => {
         userPassword: userPassword.current.value,
       },
     }).then((response) => {
+      console.log(response);
+      if(response.data.userNotFound){
+        setUserNotFound(true)
+      }
       if (response.data.isAuthenticated) {
         setAuthenticated(() => true);
         localStorage.setItem(
@@ -63,6 +68,9 @@ const Login = () => {
           <div className='bg-black w-[500px] h-auto py-6 px-9 text-center'>
             <h1 className='text-4xl mb-6'>Welcome Back</h1>
             <form onSubmit={onSubmitHandler}>
+            <div className="w-100 text-left">
+            {isUserNotFound? <label className="text-[10px] text-red-500">*Invalid Email / Password. </label>: <span></span>}
+            </div>
               <TextField
                 fullWidth
                 inputRef={userEmail}

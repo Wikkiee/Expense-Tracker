@@ -4,7 +4,26 @@ import { NewTransaction } from "./NewTransaction.jsx";
 import { Navbar } from "../../components/Navbar.jsx";
 import { Contact } from "./Contact.jsx";
 import { Upcoming } from "./Upcoming.jsx";
+import useAuth from "../../hooks/useAuthHook.jsx";
+import { useEffect } from "react";
+import axios from "axios";
+
+
 export const Home = () => {
+  
+const {setAuthenticated} = useAuth()
+  useEffect(()=>{
+    axios({
+      method:'get',
+      url:"http://localhost:5000",
+      withCredentials:true
+    }).then((response)=>{
+      console.log(response.data.isAuthenticated);
+      if(response.data.isAuthenticated){
+        setAuthenticated(()=> true)
+      }
+    })
+  },[])
   return (
     <>
       <Navbar name='Login' link='/login' />
