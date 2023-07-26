@@ -5,7 +5,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { ToggleButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
-import SubmitButton from "../../components/SubmitButton";
 
 export const NewTransaction = () => {
   const [isIncomeSelected, setIncomeSelected] = useState(false);
@@ -32,7 +31,7 @@ export const NewTransaction = () => {
 
   return (
     <div className='w-[95%] ml-6 px-5 py-6 flex justify-center bg-black'>
-      <form onSubmit={onClickHandler}>
+      <form>
         <div className='w-full'>
           <div className='w-full h-full flex items-center justify-between'>
             <div className='w-[85%]'>
@@ -135,11 +134,14 @@ export const NewTransaction = () => {
           />
         </div>
         <div className='flex justify-center'>
-          <SubmitButton
-            Text={"Submit"}
-            isInvalidValue={isInvalidValue}
-            isIncomeSelected={isIncomeSelected}
-          />
+          <button
+            onClick={onClickHandler}
+            disabled={isInvalidValue & !isIncomeSelected}
+            className='bg-light-black py-2 px-12 rounded transition-colors hover:bg-white hover:text-black ease-in duration-300'
+            type='button'
+          >
+            Submit
+          </button>
         </div>
       </form>
     </div>

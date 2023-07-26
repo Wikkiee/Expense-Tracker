@@ -7,10 +7,10 @@ import { Upcoming } from "./Upcoming.jsx";
 import useAuth from "../../hooks/useAuthHook.jsx";
 import { useEffect } from "react";
 import axios from "axios";
+import getCurrentTime from "../../utils/CurrentTime.jsx";
 
 
 export const Home = () => {
-  
 const {setAuthenticated} = useAuth()
   useEffect(()=>{
     axios({
@@ -31,8 +31,10 @@ const {setAuthenticated} = useAuth()
         <div className='flex justify-between px-[110px]'>
           <div>
             <div className='flex justify-center items-center flex-col mb-12'>
-              <h1 className='text-6xl mb-0 '>Hello There. </h1>
-              <h4 className='mt-0'>version - 1.0</h4>
+              <div className="w-100  flex text-left flex-col">
+              <h1 className='text-6xl mb-0 '>{getCurrentTime()}</h1>
+              <h4 className='mt-0 w-100 text-sm ml-2'>The joy is in creating, not maintaining.</h4>
+              </div>
             </div>
             <div className='bg-black py-7 px-[22px]'>
               <div className='mb-6'>
