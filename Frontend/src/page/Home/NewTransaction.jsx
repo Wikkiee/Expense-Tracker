@@ -7,10 +7,14 @@ import { ToggleButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 
 export const NewTransaction = () => {
-  const [isIncomeSelected, setIncomeSelected] = useState(false);
-  const [isInvalidValue, setInvalidValue] = useState(false);
   const { ExpenseUpdate } = useSetBalance();
   const { currentIncome, currentBalance } = useBalance();
+  const [isDisabled, setDisabled] = useState(false);
+  const [lastValue, setLastValue] = useState(0);
+  const [isInvalidValue, setInvalidValue] = useState(false);
+  const [isIncomeSelected, setIncomeSelected] = useState(false);
+  const [isNotRequiredFilled, setNotRequiredFilled] = useState(false);
+  const [isWarning,setWarning] = useState("#B3B3B3")
   const currentAmount = useRef();
   const currentText = useRef();
   const currentTag = useRef();
@@ -21,12 +25,24 @@ export const NewTransaction = () => {
     }
   }, [currentIncome]);
   const onClickHandler = () => {
-    ExpenseUpdate({
-      Mode: isIncomeSelected ? "Income" : "Expense",
-      Amount: Math.abs(currentAmount.current.value),
-      Text: currentText.current.value,
-      Tag: currentTag.current.value,
-    });
+    if (
+      currentText.current.value === "" ||
+      currentAmount.current.value === "" ||
+      currentTag.current.value === ""
+    ) {
+      setNotRequiredFilled(true);
+      setWarning('#FF6D49')
+    } else {
+      ExpenseUpdate({
+        Mode: isIncomeSelected ? "Income" : "Expense",
+        Amount: Math.abs(currentAmount.current.value),
+        Text: currentText.current.value,
+        Tag: currentTag.current.value,
+      });
+      currentText.current.value = "";
+      currentAmount.current.value = "";
+      currentTag.current.value = "";
+    }
   };
 
   return (
@@ -38,12 +54,26 @@ export const NewTransaction = () => {
               <TextField
                 type={"number"}
                 onChange={(e) => {
+                  setNotRequiredFilled(false)
+                  setWarning("#B3B3B3")
+                  if (
+                    parseInt(e.target.value) + currentBalance > 1000000 &&
+                    isIncomeSelected
+                  ) {
+                    e.target.value = lastValue;
+                  } else {
+                    setDisabled(false);
+                  }
                   if (e.target.value > currentBalance) {
                     setInvalidValue(true);
                   } else {
                     setInvalidValue(false);
                   }
+                  if (e.target.value !== lastValue) {
+                    setLastValue(() => parseInt(e.target.value));
+                  }
                 }}
+                disabled={isDisabled}
                 error={isInvalidValue & !isIncomeSelected}
                 fullWidth
                 required='true'
@@ -101,15 +131,19 @@ export const NewTransaction = () => {
           <TextField
             fullWidth
             required='true'
+            onChange={()=>{
+              setNotRequiredFilled(false)
+              setWarning("#B3B3B3")
+            }}
             sx={{ margin: "0px 0px 25px  0px" }}
             autoComplete='off'
             className='bg-light-black'
             inputRef={currentText}
             id='filled-basic'
-            label='Information'
+            label={isNotRequiredFilled? "Please Enter the Information":'Information'}
             variant='filled'
             InputLabelProps={{
-              style: { color: "#B3B3B3" },
+              style: { color: isWarning },
             }}
             InputProps={{
               style: { color: "#B3B3B3" },
@@ -118,15 +152,19 @@ export const NewTransaction = () => {
           <TextField
             fullWidth
             required='true'
+            onChange={()=>{
+              setNotRequiredFilled(false)
+              setWarning("#B3B3B3")
+            }}
             sx={{ margin: "0px 0px 25px  0px" }}
             autoComplete='off'
             className='bg-light-black'
             inputRef={currentTag}
             id='filled-basic'
-            label='Tags'
+            label={isNotRequiredFilled? 'Please Enter the Tag':'Tag'}
             variant='filled'
             InputLabelProps={{
-              style: { color: "#B3B3B3" },
+              style: { color: isWarning },
             }}
             InputProps={{
               style: { color: "#B3B3B3" },
@@ -136,7 +174,7 @@ export const NewTransaction = () => {
         <div className='flex justify-center'>
           <button
             onClick={onClickHandler}
-            disabled={isInvalidValue & !isIncomeSelected}
+            disabled={isInvalidValue & !isIncomeSelected || isNotRequiredFilled}
             className='bg-light-black py-2 px-12 rounded transition-colors hover:bg-white hover:text-black ease-in duration-300'
             type='button'
           >
