@@ -28,8 +28,6 @@ export const ExpenseProvider = ({ children }) => {
       currentIncome: currentIncome,
     };
     localStorage.setItem("_trackerData_", JSON.stringify(data));
-    console.log("Triggered");
-    console.log(currentExpenseHistory);
     axios({
       method:"put",
       url:"http://localhost:5000/update",
@@ -114,7 +112,6 @@ export const ExpenseProvider = ({ children }) => {
       return item.Id != id;
     });
     setCurrentExpenseHistory(items);
-    console.log(currentExpenseHistory);
   };
 
   return (

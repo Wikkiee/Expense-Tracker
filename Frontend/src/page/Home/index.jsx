@@ -18,7 +18,6 @@ const {setAuthenticated} = useAuth()
       url:"http://localhost:5000",
       withCredentials:true
     }).then((response)=>{
-      console.log(response.data.isAuthenticated);
       if(response.data.isAuthenticated){
         setAuthenticated(()=> true)
       }
@@ -26,7 +25,7 @@ const {setAuthenticated} = useAuth()
   },[])
   return (
     <>
-      <Navbar name='Login' link='/login' />
+      <Navbar name='Cloud Sync' link='/login' />
       <dib className='w-full h-screen m-0 p-0 bg-[#121212]'>
         <div className='flex justify-between px-[110px]'>
           <div>

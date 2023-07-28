@@ -6,7 +6,3 @@ export const Button = ({name}) => {
     </button>
   );
 };
-
-Button.propTypes = {
-  name:String
-}

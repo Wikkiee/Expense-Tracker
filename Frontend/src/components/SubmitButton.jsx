@@ -9,10 +9,5 @@ const SubmitButton = ({ Text, isInvalidValue, isIncomeSelected }) => {
     </button>
   );
 };
-SubmitButton.propTypes = {
-  Text: String,
-  isInvalidValue: Boolean,
-  isIncomeSelected: Boolean,
-};
 
 export default SubmitButton;

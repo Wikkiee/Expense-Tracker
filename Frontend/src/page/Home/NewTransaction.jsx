@@ -37,7 +37,7 @@ export const NewTransaction = () => {
         Mode: isIncomeSelected ? "Income" : "Expense",
         Amount: Math.abs(currentAmount.current.value),
         Text: currentText.current.value,
-        Tag: currentTag.current.value,
+        Tag: currentTag.current.value.toUpperCase(),
       });
       currentText.current.value = "";
       currentAmount.current.value = "";
@@ -131,9 +131,12 @@ export const NewTransaction = () => {
           <TextField
             fullWidth
             required='true'
-            onChange={()=>{
+            onChange={(e)=>{
               setNotRequiredFilled(false)
               setWarning("#B3B3B3")
+              if(e.target.value.length >20){
+                e.target.value = e.target.value.slice(0,-1)
+              }
             }}
             sx={{ margin: "0px 0px 25px  0px" }}
             autoComplete='off'
@@ -152,9 +155,12 @@ export const NewTransaction = () => {
           <TextField
             fullWidth
             required='true'
-            onChange={()=>{
+            onChange={(e)=>{
               setNotRequiredFilled(false)
               setWarning("#B3B3B3")
+              if(e.target.value.length >10){
+                e.target.value = e.target.value.slice(0,-1)
+              }
             }}
             sx={{ margin: "0px 0px 25px  0px" }}
             autoComplete='off'

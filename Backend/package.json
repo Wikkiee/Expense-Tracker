@@ -5,7 +5,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev": "cd src && clear && node app.js"
+    "dev": "cd src && clear && node app.js",
+    "start" : "cd src && node app.js"
   },
   "author": "Wikkie",
   "license": "ISC",

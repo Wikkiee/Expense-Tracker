@@ -24,8 +24,3 @@ export const Navbar = ({ name, link }) => {
     </header>
   );
 };
-
-Navbar.propTypes = {
-  name: String,
-  link: String,
-};

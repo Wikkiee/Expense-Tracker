@@ -37,7 +37,6 @@ const Login = () => {
         userPassword: userPassword.current.value,
       },
     }).then((response) => {
-      console.log(response);
       if(response.data.userNotFound){
         setUserNotFound(true)
       }
@@ -98,6 +97,7 @@ const Login = () => {
                 id='filled-basic'
                 label='Password'
                 variant='filled'
+                type={"password"}
                 InputLabelProps={{
                   style: { color: "#B3B3B3" },
                 }}

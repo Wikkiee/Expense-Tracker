@@ -37,7 +37,7 @@ export const HistoryItems = ({
         <img className='px-4' src={Icon === "up" ? UpIcon : DownIcon} />
         <h4 className='text-base font-medium'>₹{Amount} </h4>
         <div className='h-[46px] my-[2px] w-[4px] mx-8  bg-dark-black'></div>
-        <h4 className='text-base font-medium'>{Text}</h4>
+        <h4 className='text-base font-medium whitespace-nowrap'>{Text}</h4>
         <h5
           className={`text-xs px-4  py-1 rounded ml-3 ${
             Icon === "up" ? "bg-[#66fd64a5]" : "bg-[#fd6464bb]"
