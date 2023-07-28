@@ -30,7 +30,7 @@ const Login = () => {
     e.preventDefault();
     axios({
       method: "post",
-      url: "http://localhost:5000/login",
+      url: `${import.meta.env.VITE_API_URL}/login`,
       withCredentials: true,
       data: {
         userEmail: userEmail.current.value,

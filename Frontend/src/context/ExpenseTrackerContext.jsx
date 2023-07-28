@@ -30,7 +30,7 @@ export const ExpenseProvider = ({ children }) => {
     localStorage.setItem("_trackerData_", JSON.stringify(data));
     axios({
       method:"put",
-      url:"http://localhost:5000/update",
+      url:`${import.meta.env.VITE_API_URL}/update`,
       data:data,
       withCredentials:true
     })

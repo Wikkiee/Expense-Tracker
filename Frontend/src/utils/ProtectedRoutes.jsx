@@ -8,7 +8,7 @@ const ProtectedRoutes = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://localhost:5000",
+      url: import.meta.env.VITE_API_URL,
       withCredentials: true,
     }).then((result) => {
       setAuthenticated(() => result.data.isAuthenticated);

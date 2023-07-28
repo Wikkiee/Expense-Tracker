@@ -6,7 +6,7 @@ const LogoutButton = ()=>{
    const onClickHandler = ()=>{
     axios({
         method:"post",
-        url:"http://localhost:5000/logout",
+        url:`${import.meta.env.VITE_API_URL}/logout`,
         withCredentials:true
       }).then((response)=>{
           if(response.data.loggedOut){

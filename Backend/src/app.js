@@ -1,22 +1,25 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import db from "./database.js";
+import client from "./database.js";
 import bcrypt from "bcrypt";
 import session from "express-session";
 import passport from "passport";
 import { initialize } from "./passport-config.js";
 import cookieParser from "cookie-parser";
+import MongoStore from "connect-mongo";
+
 initialize(passport);
 
-const PORT = 5000;
+const PORT = process.env.PORT || 3000;
 const app = express();
+const db = client.db(process.env.DATABASE_NAME).collection("userData");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:4000",
+    origin: process.env.CORS || "http://localhost:4000",
     credentials: true,
   })
 );
@@ -28,6 +31,14 @@ app.use(
     cookie: {
       maxAge: 9000000000000,
     },
+    store: MongoStore.create({
+      client: client,
+      dbName: process.env.DATABASE_NAME,
+      collectionName: "sessions",
+      stringify: false,
+      autoRemove: "interval",
+      autoRemoveInterval: 1,
+    }),
   })
 );
 app.use(passport.initialize());
@@ -116,14 +127,13 @@ app.put("/update", checkAuthenticated, async (req, res) => {
   res.json({ success: true });
 });
 
-
-app.post("/logout",(req,res)=>{
+app.post("/logout", (req, res) => {
   console.log("logout");
-  req.session.destroy(function() {
-    res.clearCookie('connect.sid');
-    res.json({loggedOut:true});
+  req.session.destroy(function () {
+    res.clearCookie("connect.sid");
+    res.json({ loggedOut: true });
+  });
 });
-})
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -149,6 +159,6 @@ app.listen(PORT, (error) => {
   if (error) {
     throw error;
   } else {
-    console.log(`Server Started on http://localhost:${PORT}`);
+    console.log(`Server Started on PORT : ${PORT}`);
   }
 });

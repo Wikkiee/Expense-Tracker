@@ -1,8 +1,9 @@
 import { Strategy } from "passport-local";
 import bcrypt from "bcrypt";
-import db from "./database.js";
+import client from "./database.js";
 
 export const initialize = (passport) => {
+  const db = client.db(process.env.DATABASE_NAME).collection("userData");
   const authenticateUser = async (email, password, done) => {
     const result = await db.findOne({ "userInfo.userEmail": email });
     if (result === null) {
