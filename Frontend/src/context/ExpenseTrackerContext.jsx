@@ -32,7 +32,7 @@ export const ExpenseProvider = ({ children }) => {
     console.log(currentExpenseHistory);
     axios({
       method:"put",
-      url:"http://localhost:5000/update",
+      url:`${import.meta.env.VITE_API_URL}/update`,
       data:data,
       withCredentials:true
     })

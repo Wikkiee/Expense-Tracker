@@ -26,7 +26,7 @@ const Register = () => {
       setValidPassword(true);
       axios({
         method: "post",
-        url: "http://localhost:5000/register",
+        url: `${import.meta.env.VITE_API_URL}/register`,
         data: {
           userEmail: userEmail.current.value,
           userPassword: userPassword.current.value,
