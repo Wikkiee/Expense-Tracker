@@ -14,6 +14,7 @@ initialize(passport);
 const PORT = process.env.PORT || 3000;
 const app = express();
 const db = client.db(process.env.DATABASE_NAME).collection("userData");
+app.set("trust proxy", 1);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
