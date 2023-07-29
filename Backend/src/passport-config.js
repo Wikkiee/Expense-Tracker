@@ -25,7 +25,6 @@ export const initialize = (passport) => {
     )
   );
   passport.serializeUser((user, done) => {
-    console.log(user);
     done(null, { userID: user.userInfo.userId });
   });
   passport.deserializeUser(async (user, done) => {
