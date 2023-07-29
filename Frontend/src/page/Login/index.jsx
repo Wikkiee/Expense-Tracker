@@ -13,6 +13,7 @@ const Login = () => {
   const userPassword = useRef();
   const { isAuthenticated, setAuthenticated } = useAuth();
   const [isUserNotFound,setUserNotFound]  = useState(false)
+  const [isActiveLoader,setActiveLoader] = useState(false)
   const navigate = useNavigate();
   const {
     setCurrentIncome,
@@ -27,6 +28,7 @@ const Login = () => {
     }
   });
   const onSubmitHandler = (e) => {
+    setActiveLoader(true)
     e.preventDefault();
     axios({
       method: "post",
@@ -39,6 +41,7 @@ const Login = () => {
     }).then((response) => {
       if(response.data.userNotFound){
         setUserNotFound(true)
+        setActiveLoader(false)
       }
       if (response.data.isAuthenticated) {
         setAuthenticated(() => true);
@@ -105,7 +108,7 @@ const Login = () => {
                   style: { color: "#B3B3B3" },
                 }}
               />
-              <SubmitButton Text={"Login"} />
+              <SubmitButton Text={"Login"} activeLoader={isActiveLoader}/>
             </form>
           </div>
         </div>

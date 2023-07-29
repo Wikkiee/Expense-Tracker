@@ -13,16 +13,20 @@ const Register = () => {
   const userConfirmPassword = useRef();
   const navigate = useNavigate();
   const [isValidPassword, setValidPassword] = useState(true);
+  const [isActiveLoader,setActiveLoader] = useState(false)
   const { isAuthenticated, setAuthenticated } = useAuth();
+  
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
   });
   const onSubmitHandler = (e) => {
+
     e.preventDefault();
 
     if (userPassword.current.value === userConfirmPassword.current.value) {
+      setActiveLoader(true)
       setValidPassword(true);
       axios({
         method: "post",
@@ -34,6 +38,7 @@ const Register = () => {
         withCredentials: true,
       })
         .then((res) => {
+          setActiveLoader(false)
           if (res.data.isAuthenticated) {
             setAuthenticated(() => true);
             navigate("/");
@@ -110,7 +115,7 @@ const Register = () => {
                   style: { color: "#B3B3B3", img: { color: "white" } },
                 }}
               />
-              <SubmitButton Text={"Register"} />
+              <SubmitButton Text={"Register"} activeLoader={isActiveLoader} />
             </form>
           </div>
         </div>

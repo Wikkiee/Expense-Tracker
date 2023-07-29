@@ -1,8 +1,9 @@
 import Logo from "../assets/Logo.svg";
 import { Button } from "./LoginButton.jsx";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuthHook";
 import LogoutButton from "./LogoutButton";
+
 export const Navbar = ({ name, link }) => {
   const { isAuthenticated } = useAuth();
   return (
@@ -13,11 +14,12 @@ export const Navbar = ({ name, link }) => {
         </Link>
       </div>
       <div>
+
         {isAuthenticated ? (
           <LogoutButton />
         ) : (
           <Link to={link}>
-            <Button name={name} />
+            <Button name={name} activeLoader={isAuthenticated}/>
           </Link>
         )}
       </div>

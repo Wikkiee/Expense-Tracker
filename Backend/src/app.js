@@ -31,8 +31,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 9000000000000,
-      sameSite:'none',
-      secure:true
+      sameSite: "none",
+      secure: true,
     },
     store: MongoStore.create({
       client: client,
@@ -67,7 +67,7 @@ app.post("/login", (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      console.log("Error");
+      console.log("User not found");
       return res.json({
         message: "Authentication failed",
         userNotFound: true,
@@ -78,7 +78,7 @@ app.post("/login", (req, res, next) => {
       if (err) {
         return next(err);
       }
-      res.cookie('cookieName', 'cookieValue')
+      res.cookie("cookieName", "cookieValue");
       return res.json({
         message: "Authentication succeed",
         userNotFound: false,
