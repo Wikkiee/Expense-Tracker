@@ -1,9 +1,6 @@
 import { Strategy } from "passport-local";
 import bcrypt from "bcrypt";
 import client from "./database.js";
-import dotenv from "dotenv";
-dotenv.config();
-
 export const initialize = (passport) => {
   const db = client.db(process.env.DATABASE_NAME).collection("userData");
   const authenticateUser = async (email, password, done) => {
