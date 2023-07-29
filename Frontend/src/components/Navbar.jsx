@@ -1,6 +1,6 @@
 import Logo from "../assets/Logo.svg";
 import { Button } from "./LoginButton.jsx";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuthHook";
 import LogoutButton from "./LogoutButton";
 
