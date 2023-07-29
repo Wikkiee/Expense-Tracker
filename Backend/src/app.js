@@ -76,6 +76,7 @@ app.post("/login", (req, res, next) => {
       if (err) {
         return next(err);
       }
+      res.cookie('cookieName', 'cookieValue')
       return res.json({
         message: "Authentication succeed",
         userNotFound: false,
