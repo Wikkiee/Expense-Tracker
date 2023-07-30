@@ -39,6 +39,11 @@ frameworks. This makes the application fast, reliable, and scalable
 
 ## Demo
 -> Live Demo : https://expense-tracker-wikkie.vercel.app
+
+## Screenshot
+
+![App Screenshot](https://i.imgur.com/bw5D9EO.png)
+
 ## Installation
 Clone the repository
 ```bash
