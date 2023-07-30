@@ -38,7 +38,7 @@ frameworks. This makes the application fast, reliable, and scalable
 
 
 ## Demo
--> Live Demo : <a href="https://expense-tracker-wikkie.vercel.app"> Expense Tracker X Preview</a>
+-> Live Demo : <a href="https://expense-tracker-wikkie.vercel.app"> Expense Tracker X Preview</a> <br>
 -> Figma Design : <a href="https://www.figma.com/file/GzRU26lYc4s1BrRkyhyfOX/Expense---Tracker?type=design&node-id=0%3A1&mode=design&t=9qBRGq2LOnlIxA9N-1"> Expense Tracker X UI Design</a>
 ## Screenshot
 
