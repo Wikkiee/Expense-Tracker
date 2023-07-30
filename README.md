@@ -25,7 +25,7 @@ frameworks. This makes the application fast, reliable, and scalable
 
 - **Simple and Minimal User Interface:** A clean and intuitive user interface that allows users to manage their expenses effortlessly.
 
-- **Expense Management:** Users can add, edit, and delete their expenses with ease.
+- **Expense Management:** Users can add and delete their expenses with ease.
 
 - **Local Browser Storage:** Utilize the browser's local storage to store expense data on the user's device, ensuring data persistence across sessions.
 
