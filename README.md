@@ -57,7 +57,7 @@ Instruction - Frontend
   npm install
   npm run dev
 ```
-Instruction - Frontend
+Instruction - Backend
 
 ```bash
   cd Expense-Tracker/Backend
